@@ -54,13 +54,12 @@ if (localStorage.getItem('logueado') === 'true') {
   setLog(false);
 }
 
-function getLog(){
+function getLog() {
   return logueado;
 }
 
-function setLog(status){
+function setLog(status) {
   logueado = status;
-  // Almacenar el estado de inicio de sesión en localStorage para persistencia
   localStorage.setItem('logueado', status);
 }
 function login() {
@@ -71,49 +70,47 @@ function login() {
     password: password
   };
 
-  fetch('http://localhost:3000/login', {  
+  fetch('http://localhost:3000/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(formData)
   })
-  .then(response => {
-    if (response.ok) {
-      setLog(true)
-      return response.json();
+    .then(response => {
+      if (response.ok) {
+        setLog(true)
+        return response.json();
 
-    } else {
-      return Promise.reject(response);
+      } else {
+        return Promise.reject(response);
 
-    }
-  })
-  .then(data => {
-    if (data.error) { 
-      alert(data.error); 
-    } else {
-      window.location.href = 'index.html';
-      setLog(true)
-    }
-  })
-  .catch(error => {
-    console.error('Error:', error);
-    // Parsea el cuerpo de la respuesta JSON y accede al mensaje de error
-    error.json().then(errorBody => {
-      alert('Error en la autenticación: ' + errorBody.message);
-    }).catch(() => {
-      alert('Error en la autenticación.');
+      }
+    })
+    .then(data => {
+      if (data.error) {
+        alert(data.error);
+      } else {
+        window.location.href = 'index.html';
+        setLog(true)
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      error.json().then(errorBody => {
+        alert('Error en la autenticación: ' + errorBody.message);
+      }).catch(() => {
+        alert('Error en la autenticación.');
+      });
     });
-  });
 }
 
 function checkAuth() {
-  // Realiza una solicitud al servidor para verificar el estado de inicio de sesión del usuario
-      if (getLog()) {
-        document.getElementById('content').style.display = 'block';
-      } else {
-        document.getElementById('content').style.display = 'none';
-        window.location.href = '/app/login.html';
-      }
+  if (getLog()) {
+    document.getElementById('content').style.display = 'block';
+  } else {
+    document.getElementById('content').style.display = 'none';
+    window.location.href = '/app/login.html';
+  }
 }
 
