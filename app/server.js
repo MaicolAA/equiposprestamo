@@ -1,44 +1,72 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
-const mysql = require('mysql');
+const { Pool } = require('pg');
 const path = require('path');
+const session = require('express-session');
 
 const app = express();
-const port = 3000;
 
-// Configuración de conexión a MySQL
-const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'usuario',
-  password: 'contraseña',
-  database: 'nombre_basedatos'
+
+// Configurar sesión
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true
+}));
+
+
+app.get('/session', (req, res) => {
+  if (req.session && req.session.user) {
+    res.sendStatus(200); 
+  } else {
+    res.sendStatus(401);
+  }
 });
 
-// Conectar a la base de datos
-connection.connect();
 
-// Middleware para analizar cuerpos de solicitud en formato JSON
+const pool = new Pool({
+  user: 'mantum',
+  host: 'localhost',
+  database: 'pdo',
+  password: 'gatostem123',
+  port: 5432,
+});
+
 app.use(bodyParser.json());
 
-// Ruta para manejar la solicitud de validación de usuario
+app.use(cors());
+
 app.post('/login', (req, res) => {
   const { email, password } = req.body;
 
-  // Consulta a la base de datos para validar el usuario
-  const query = `SELECT * FROM usuarios WHERE email = ? AND password = ?`;
-  connection.query(query, [email, password], (error, results) => {
+  const query = `SELECT * FROM "user" WHERE email = $1`;
+  const query2 = `SELECT * FROM "user" WHERE email = $1 AND password = $2`;
+
+  // Consulta para verificar si el usuario existe
+  pool.query(query, [email], (error, results) => {
     if (error) {
-      res.status(500).json({ error: 'Error interno del servidor' });
-    } else if (results.length > 0) {
-      // Si el usuario existe en la base de datos, redirigir al index.html
-      res.sendFile(path.join(__dirname, 'index.html'));
+      res.status(500).json({ message: 'Error interno del servidor' });
+    } else if (results.rows.length === 0) {
+      res.status(401).json({ message: 'Usuario no encontrado' });
     } else {
-      res.status(401).json({ error: 'Credenciales incorrectas' });
+      // Usuario encontrado, ahora verificamos la contraseña
+      pool.query(query2, [email, password], (error, results) => {
+        if (error) {
+          res.status(500).json({ message: 'Error interno del servidor' });
+        } else if (results.rows.length > 0) {
+          res.json({ message: '¡Inicio de sesión exitoso!' });
+          res.sendFile(path.join(__dirname, 'index.html'));
+        } else {
+          // Contraseña incorrecta
+          res.status(401).json({ message: 'Contraseña incorrecta' });
+        }
+      });
     }
   });
 });
 
-// Iniciar el servidor
-app.listen(port, () => {
-  console.log(`Servidor escuchando en http://localhost:${port}`);
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Servidor en ejecución en el puerto ${PORT}`);
 });

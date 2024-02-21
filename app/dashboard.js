@@ -1,11 +1,9 @@
-/* globals Chart:false */
 
 (() => {
   'use strict'
 
   // Graphs
   const ctx = document.getElementById('myChart')
-  // eslint-disable-next-line no-unused-vars
   const myChart = new Chart(ctx, {
     type: 'line',
     data: {
@@ -48,7 +46,23 @@
   })
 })()
 
+var logueado
 
+if (localStorage.getItem('logueado') === 'true') {
+  setLog(true);
+} else {
+  setLog(false);
+}
+
+function getLog(){
+  return logueado;
+}
+
+function setLog(status){
+  logueado = status;
+  // Almacenar el estado de inicio de sesión en localStorage para persistencia
+  localStorage.setItem('logueado', status);
+}
 function login() {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
@@ -57,7 +71,7 @@ function login() {
     password: password
   };
 
-  fetch('/validateUser', {
+  fetch('http://localhost:3000/login', {  
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -66,22 +80,40 @@ function login() {
   })
   .then(response => {
     if (response.ok) {
+      setLog(true)
       return response.json();
+
     } else {
-      throw new Error('Error en la solicitud');
+      return Promise.reject(response);
+
     }
   })
   .then(data => {
-    if (data.success) {
-      window.location.href = 'otra_pagina.html';
+    if (data.error) { 
+      alert(data.error); 
     } else {
-      alert('Credenciales incorrectas. Intente nuevamente.');
+      window.location.href = 'index.html';
+      setLog(true)
     }
   })
   .catch(error => {
     console.error('Error:', error);
+    // Parsea el cuerpo de la respuesta JSON y accede al mensaje de error
+    error.json().then(errorBody => {
+      alert('Error en la autenticación: ' + errorBody.message);
+    }).catch(() => {
+      alert('Error en la autenticación.');
+    });
   });
 }
 
-
+function checkAuth() {
+  // Realiza una solicitud al servidor para verificar el estado de inicio de sesión del usuario
+      if (getLog()) {
+        document.getElementById('content').style.display = 'block';
+      } else {
+        document.getElementById('content').style.display = 'none';
+        window.location.href = '/app/login.html';
+      }
+}
 
