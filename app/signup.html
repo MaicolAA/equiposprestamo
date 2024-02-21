@@ -100,25 +100,35 @@
           <div>
             <h6 class="h6 mb-3 fw-normal">UNAULA</h6>
             <h2 class="h3 mb-3 fw-normal">SERVICIO DE PRESTAMOS</h3>
-            <h4 class="h4 mb-3 fw-normal">Bienvenido</h4>
-
+            <h4 class="h4 mb-3 fw-normal">Registrarse</h4>
           </div>
 
-          <h6 class="fw-normal">Usuario</h6>
+          <!-- <h6 class="fw-normal">Usuario</h6> -->
+          <div class="form-floating">
+            <input type="text" class="form-control" id="name" placeholder="Full name" required>
+            <label for="email">Nombre completo</label>
+          </div>
+          <br>
           <div class="form-floating">
             <input type="email" class="form-control" id="email" placeholder="name@example.com" required>
-            <label for="email">Ingrese usuario</label>
+            <label for="email">Email</label>
           </div>
-          <h6 class="fw-normal"></h6>
-          <h6 class="fw-normal">Contraseña</h6>
+          <br>
+          <!-- <h6 class="fw-normal"></h6> -->
+          <!-- <h6 class="fw-normal">Contraseña</h6> -->
           <div class="form-floating">
             <input type="password" class="form-control" id="password" placeholder="Password" required>
             <label for="password">Ingrese Contraseña</label>
           </div>
+          <br>
+          <div class="form-floating">
+            <input type="password" class="form-control" id="password2" placeholder="Password" required>
+            <label for="password2">Repetir Contraseña</label>
+          </div>
 
           <div class="form-check text-start my-3"></div>
 
-          <button class="btn btn-primary w-100 py-2" type="submit" >Ingresar</button>
+          <button class="btn btn-primary w-100 py-2" type="submit" >Registrarse</button>
           <p class="mt-5 mb-3 text-body-secondary">&copy; UNAULA 2024</p>
         </form>
       </div>
