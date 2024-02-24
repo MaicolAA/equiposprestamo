@@ -196,30 +196,36 @@
             aria-labelledby="sidebarMenuLabel">
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="sidebarMenuLabel">Company name</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
-                aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
             </div>
             <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+
+
               <ul class="nav flex-column">
                 <li class="nav-item">
-                  <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+                  <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#"
+                    onclick="mostrarTarjetas()">
                     <svg class="bi">
                       <use xlink:href="#house-fill" />
                     </svg>
                     Inicio
                   </a>
                 </li>
-                <hr class="my-3">
-                <ul class="nav flex-column mb-auto">
-                  <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center gap-2" href="#">
-                      <svg class="bi">
-                        <use xlink:href="#door-closed" />
-                      </svg>
-                      Sign out
-                    </a>
-                  </li>
-                </ul>
+              </ul>
+
+              <hr class="my-3">
+
+              <ul class="nav flex-column mb-auto">
+                <li class="nav-item">
+                  <a class="nav-link d-flex align-items-center gap-2" href="#" id="signOutBtn">
+                    <svg class="bi">
+                      <use xlink:href="#door-closed" />
+                    </svg>
+                    Sign out
+                  </a>
+                </li>
+              </ul>
+
             </div>
           </div>
         </div>
@@ -233,10 +239,10 @@
           <div class="table-responsive small">
             <table class="table table-striped table-sm">
               <thead>
-                <section class="container">
-                  <div class="row">
+                <section class="container" id="tarjetas">
+                  <div class="row" id="tarjetas">
                     <div class="col-lg-4 mb-4">
-                      <a href="javascript:void(0);" onclick="alert('Haz hecho clic en Portátiles');">
+                      <a href="javascript:void(0);" onclick="mostrarFormularioPrestamo()">
                         <div class="card">
                           <img src="img/portatil.jpg" class="card-img-top" alt="Portátil">
                           <div class="card-body">
@@ -249,37 +255,49 @@
                     </div>
 
                     <div class="col-lg-4 mb-4">
-                      <div class="card">
-                        <img src="img/portatil.jpg" class="card-img-top" alt="Portátil">
-                        <div class="card-body">
-                          <h5 class="card-title">Portátiles</h5>
-                          <p class="card-text">Disfruta de la flexibilidad de trabajar en cualquier lugar con nuestros
-                            portátiles de última generación.</p>
+                      <a href="javascript:void(0);" onclick="mostrarFormularioPrestamo()">
+                        <div class="card">
+                          <img src="img/tablet.jpg" class="card-img-top" alt="Tablet">
+                          <div class="card-body">
+                            <h5 class="card-title">Tablets</h5>
+                            <p class="card-text">Accede a recursos digitales y libros electrónicos con nuestras tablets
+                              de
+                              alta calidad.</p>
+                          </div>
                         </div>
-                      </div>
+                      </a>
                     </div>
+
                     <div class="col-lg-4 mb-4">
-                      <div class="card">
-                        <img src="img/tablet.jpg" class="card-img-top" alt="Tablet">
-                        <div class="card-body">
-                          <h5 class="card-title">Tablets</h5>
-                          <p class="card-text">Accede a recursos digitales y libros electrónicos con nuestras tablets de
-                            alta calidad.</p>
+                      <a href="javascript:void(0);" onclick="mostrarFormularioPrestamo()">
+                        <div class="card">
+                          <img src="img/celulare.jpg" class="card-img-top" alt="Celular">
+                          <div class="card-body">
+                            <h5 class="card-title">Celulares</h5>
+                            <p class="card-text">Mantente conectado y accede a aplicaciones educativas con nuestros
+                              celulares equipados.</p>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                    <div class="col-lg-4 mb-4">
-                      <div class="card">
-                        <img src="img/celulare.jpg" class="card-img-top" alt="Celular">
-                        <div class="card-body">
-                          <h5 class="card-title">Celulares</h5>
-                          <p class="card-text">Mantente conectado y accede a aplicaciones educativas con nuestros
-                            celulares equipados.</p>
-                        </div>
-                      </div>
+                      </a>
                     </div>
                   </div>
                 </section>
+                <!-- Formulario de préstamo -->
+                <div id="formularioPrestamo" style="display: none;">
+                  <h2>Selecciona las fechas del préstamo</h2>
+                  <form>
+                    <div class="mb-3">
+                      <label for="startDate" class="form-label">Fecha de inicio:</label>
+                      <input type="date" id="startDate" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                      <label for="endDate" class="form-label">Fecha de entrega:</label>
+                      <input type="date" id="endDate" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Confirmar préstamo</button>
+                  </form>
+                </div>
+
               </thead>
             </table>
           </div>
@@ -294,11 +312,50 @@
     crossorigin="anonymous"></script>
   <script src="dashboard.js"></script>
 
+  <script>
+    function mostrarTarjetas() {
+      document.getElementById('tarjetas').style.display = 'block';
+      document.getElementById('formularioPrestamo').style.display = 'none';
+    }
+  </script>
+
+  <script>
+    document.getElementById("signOutBtn").addEventListener("click", function (event) {
+      event.preventDefault();
+      console.log("Cerrando sesión...");
+      window.location.href = "login.html";
+    });
+  </script>
+
+  <script>
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementById('startDate').setAttribute('min', today);
+    document.getElementById('endDate').setAttribute('min', today);
+  </script>
+
+  <script>
+    function mostrarFormularioPrestamo() {
+      document.getElementById("tarjetas").style.display = "none";
+      document.getElementById("formularioPrestamo").style.display = "block";
+    }
+    function confirmarPrestamo() {
+      var startDate = document.getElementById("startDate").value;
+      var endDate = document.getElementById("endDate").value;
+      // Aquí se puede enviar la fecha para hacer otra cosa
+      console.log("Fecha de inicio:", startDate);
+      console.log("Fecha de entrega:", endDate);
+    }
+  </script>
+  <!--
+  <script>
+    var usuarioIniciadoSesion = false;
+    if (!usuarioIniciadoSesion) {
+      window.location.href = "login.html";
+    }
+  </script> -->
+
+
 </body>
 
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    checkAuth();
-});
-</script>
+
 </html>
