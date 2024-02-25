@@ -81,7 +81,7 @@ function login() {
     password: password
   };
 
-  fetch('http://localhost:3000/login', {
+  fetch('http://localhost:3000/iniciarsesion', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

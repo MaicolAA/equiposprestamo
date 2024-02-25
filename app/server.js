@@ -4,7 +4,6 @@ const bodyParser = require('body-parser');
 const { Pool } = require('pg');
 const path = require('path');
 const session = require('express-session');
-
 const app = express();
 
 
@@ -36,7 +35,7 @@ const pool = new Pool({
 app.use(bodyParser.json());
 
 app.use(cors());
-app.post('/login', (req, res) => {
+app.post('/iniciarsesion', (req, res) => {
   const { email, password } = req.body;
 
   const query = `SELECT * FROM "user" WHERE email = $1`;
