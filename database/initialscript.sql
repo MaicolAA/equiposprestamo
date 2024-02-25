@@ -36,12 +36,15 @@ create table equipment
 	name character varying (50),
 	description text,
 	isBorrowed boolean default false,
-	characteristics text
+	characteristics text,
+	idTypeEquipment int,
+	foreign key (idTypeEquipment) references typeequipment (id)
 );
 
-insert into equipment (name, description, isBorrowed, characteristics)
+insert into equipment (name, description, isBorrowed, characteristics, idTypeEquipment)
 values
-('Portatil lenovo', 'portatil para prestamo', false, '{ram: "8gb", sd: "240gb", color: "Negro"}');
+('Portatil lenovo', 'portatil para prestamo', false, '{ram: "8gb", sd: "240gb", color: "Negro"}', 3 );
+
 
 create table loan
 (
@@ -59,5 +62,18 @@ create table loan
 
 insert into loan (startDate, endDate, endRealDate, status, idUser, idEquipment)
 values ('2023-12-01', '2023-12-10', '2023-12-15', 'entregado', 1, 1);
+
+
+create table loanrequest (
+	id serial primary key,
+	iduser int,
+	typeequipment text,
+	statusapproved text,
+    startdaterequired text, 
+	enddaterequired text
+);
+
+insert into loanrequest (iduser, typeequipment, statusapproved, startdaterequired, enddaterequired )
+values (1, 'celular', 'pendiente', '2024-02-29', '2024-03-12');
 
 
