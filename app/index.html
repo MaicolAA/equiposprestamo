@@ -21,6 +21,12 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.min.css" rel="stylesheet">
   <!-- Custom styles for this template -->
   <link href="dashboard.css" rel="stylesheet">
+
+  <style>
+    #content {
+      display: none; 
+    }
+</style>
 </head>
 
 <body>
@@ -196,7 +202,8 @@
             aria-labelledby="sidebarMenuLabel">
             <div class="offcanvas-header">
               <h5 class="offcanvas-title" id="sidebarMenuLabel">Company name</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu"
+                aria-label="Close"></button>
             </div>
             <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
 
@@ -294,7 +301,7 @@
                       <label for="endDate" class="form-label">Fecha de entrega:</label>
                       <input type="date" id="endDate" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Confirmar préstamo</button>
+                    <button type="submit" class="btn btn-primary">Crear Solicitud préstamo</button>
                   </form>
                 </div>
 
@@ -313,6 +320,19 @@
   <script src="dashboard.js"></script>
 
   <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      if (getLog()) {
+        document.getElementById("content").style.display = "block";
+      } else {
+        console.log("log" + getLog())
+
+        window.location.href = "login.html";
+        alert("Debe iniciar sesión.");
+      }
+    });
+  </script>
+
+  <script>
     function mostrarTarjetas() {
       document.getElementById('tarjetas').style.display = 'block';
       document.getElementById('formularioPrestamo').style.display = 'none';
@@ -322,6 +342,7 @@
   <script>
     document.getElementById("signOutBtn").addEventListener("click", function (event) {
       event.preventDefault();
+      setLog(false);
       console.log("Cerrando sesión...");
       window.location.href = "login.html";
     });

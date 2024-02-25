@@ -26,7 +26,8 @@ create table typeequipment
 
 insert into typeequipment ( name, description)
 values ('Computador', 'Dispositivo de computo portatil'),
-		('Celular', 'Dispositivo Movil');
+		('Celular', 'Dispositivo Movil'),
+		('Tablet', 'Dispositivo Movil');
 		
 		
 create table equipment 

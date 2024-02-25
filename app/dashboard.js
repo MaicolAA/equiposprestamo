@@ -46,7 +46,7 @@
   })
 })()
 
-var logueado
+var logueado;
 
 if (localStorage.getItem('logueado') === 'true') {
   setLog(true);
@@ -62,6 +62,7 @@ function setLog(status) {
   logueado = status;
   localStorage.setItem('logueado', status);
 }
+
 function login() {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
@@ -83,13 +84,15 @@ function login() {
         return response.json();
 
       } else {
+        setLog(false);
         return Promise.reject(response);
-
       }
     })
     .then(data => {
       if (data.error) {
         alert(data.error);
+        setLog(false);
+
       } else {
         window.location.href = 'index.html';
         setLog(true)
@@ -99,8 +102,12 @@ function login() {
       console.error('Error:', error);
       error.json().then(errorBody => {
         alert('Error en la autenticación: ' + errorBody.message);
+        setLog(false);
+
       }).catch(() => {
         alert('Error en la autenticación.');
+        setLog(false);
+
       });
     });
 }
