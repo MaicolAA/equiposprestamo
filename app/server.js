@@ -25,10 +25,10 @@ app.get('/session', (req, res) => {
 
 
 const pool = new Pool({
-  user: 'mantum',
-  host: 'localhost',
-  database: 'prestamos',
-  password: 'gatostem123',
+  user: "postgres",
+  host: "localhost",
+  database: "prestamos",
+  password: "admin",
   port: 5432,
 });
 
