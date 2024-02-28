@@ -111,6 +111,40 @@ app.post('/getsolicitudes', (req, res) => {
   });
 });
 
+
+app.post('/crearprestamo', (req, res) => {
+  let { fechainicio, fechafin, iduser, idequipment } = req.body;
+
+  const estado = 'prestado';
+  const endRealDate = null;
+  const query = 'INSERT INTO loan (startDate, endDate, endRealDate, status, idUser, idEquipment) VALUES ($1, $2, $3, $4, $5, $6);';
+
+
+  pool.query(query, [fechainicio, fechafin, endRealDate, estado, iduser, idequipment], (error, results) => {
+    if (error) {
+      res.status(500).json({ message: 'Error interno del servidor' + error });
+    } else {
+      res.json({ message: '¡Se generó su solicitud!', data: results.rows });
+    } 
+  });
+});
+
+
+app.post('/setearsolicitud', (req, res) => {
+  let { idsolicitud, estado } = req.body;
+
+  const query = 'UPDATE loanrequest SET statusapproved = $1 WHERE id = $2;';
+
+  pool.query(query, [estado, idsolicitud], (error, results) => {
+    if (error) {
+      res.status(500).json({ message: 'Error interno del servidor' + error });
+    } else {
+      res.json({ message: '¡Se actualizó el estado de la solicitud!', data: results.rows });
+    } 
+  });
+});
+
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Servidor en ejecución en el puerto ${PORT}`);

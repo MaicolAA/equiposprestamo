@@ -66,13 +66,27 @@ function setLog(status) {
 
 var user;
 
-function setUser(user) {
-  user = user;
+
+function setUser(userdata) {
+  user = userdata;
+  localStorage.setItem('user', userdata);
 }
 
 function getUser() {
   return user;
 }
+
+var typeUser;
+
+function setTypeUser(typeuser) {
+  typeUser = typeuser;
+  localStorage.setItem('typeuser', typeuser);
+}
+
+function getTypeUser() {
+  return typeUser;
+}
+
 function login() {
   var email = document.getElementById("email").value;
   var password = document.getElementById("password").value;
@@ -102,6 +116,7 @@ function login() {
       } else {
         setLog(true);
         setUser(data);
+        setTypeUser(data);
         window.location.href = 'index.html';
       }
     })
