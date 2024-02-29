@@ -764,16 +764,14 @@
       table.appendChild(tbody);
 
       const container = document.getElementById('contenedorSolicitudes');
-      container.innerHTML = ''; // Limpiar el contenido existente
+      container.innerHTML = '';
       container.appendChild(table);
 
-
     }
-
   </script>
 
   <script>
-      function construirTablaHistorico(data) {
+    function construirTablaHistorico(data) {
       const table = document.createElement('table');
       table.classList.add('table', 'table-striped', 'table-bordered', 'table-responsive');
 
@@ -814,7 +812,6 @@
   </script>
 
   <script>
-
     function construirTablaAllSolicitudes(data) {
       var response;
 
@@ -836,7 +833,7 @@
                 <th>Fecha inicial requerida</th>
                 <th>Fecha final requerida</th>
                 <th>Dispositivo requerido</th>
-                <th>Seleccionar dispositivo requerido</th>
+                <th>Seleccionar dispositivo</th>
                 <th>Acciones</th>
             </tr>
             `;
@@ -845,13 +842,25 @@
           const tbody = document.createElement('tbody');
           data.forEach(solicitud => {
             if (solicitud.statusapproved === 'pendiente') {
+
+              var disp = "";
+              if(solicitud.typeequipment == "3"){
+                disp = "Computador"
+              }
+              if(solicitud.typeequipment == "4"){
+                disp = "Tablet"
+              }
+              if(solicitud.typeequipment == "5"){
+                disp = "Celular"
+              }
+
               const row = document.createElement('tr');
               row.innerHTML = `
                     <td>${solicitud.fullname}</td>
                     <td>${solicitud.statusapproved}</td>
                     <td>${solicitud.startdaterequired}</td>
-                    <td>${solicitud.enddaterequired}</td> 
-                    <td>${solicitud.typeequipment}</td>
+                    <td>${solicitud.enddaterequired}</td>  
+                    <td>${disp}</td>
                     <td>
                         <select></select>
                     </td>
@@ -860,11 +869,16 @@
                         <button class="btn btn-danger" onclick="rechazarPrestamoR('${solicitud.id}');">Rechazar</button>
                     </td>
                     `;
+                    console.log(dispositivos)
               dispositivos.forEach(dispositivo => {
+
                 const option = document.createElement('option');
-                option.value = dispositivo.name;
-                option.textContent = dispositivo.name;
-                row.querySelector('select').appendChild(option);
+
+                if (solicitud.typeequipment == dispositivo.idtypeequipment) {
+                  option.value = dispositivo.name;
+                  option.textContent = dispositivo.name;
+                  row.querySelector('select').appendChild(option);
+                }
               });
               tbody.appendChild(row);
             }

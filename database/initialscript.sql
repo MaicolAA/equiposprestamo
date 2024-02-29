@@ -17,6 +17,20 @@ values
 ('David Ramoz', 'ramozcalzada@gmail.com', 'mmdmsmdsm20002sd', 'Admin', '2023-12-01', 'Carrera 77 #20-12', '31223232', true  );
 
 
+INSERT INTO "user" (fullName, email, password, role, createdAt, address, phone, isActive)
+VALUES
+('Juan Pérez', 'juan@example.com', 'password123', 'Usuario', '2023-12-02', 'Calle 123', '123456789', true),
+('María García', 'maria@example.com', 'password456', 'Usuario', '2023-12-03', 'Avenida 456', '987654321', true),
+('Carlos López', 'carlos@example.com', 'password789', 'Usuario', '2023-12-04', 'Plaza 789', '456789123', true),
+('Ana Martínez', 'ana@example.com', 'passwordabc', 'Usuario', '2023-12-05', 'Bulevar 321', '789123456', true),
+('Pedro Rodríguez', 'pedro@example.com', 'passworddef', 'Usuario', '2023-12-06', 'Paseo 987', '159357486', true),
+('Laura Sánchez', 'laura@example.com', 'passwordghi', 'Usuario', '2023-12-07', 'Camino 654', '357951468', true),
+('Sofía Gómez', 'sofia@example.com', 'passwordjkl', 'Usuario', '2023-12-08', 'Pasaje 369', '951753468', true),
+('Luis Hernández', 'luis@example.com', 'passwordmno', 'Usuario', '2023-12-09', 'Ronda 852', '753159846', true),
+('Elena Díaz', 'elena@example.com', 'passwordpqr', 'Usuario', '2023-12-10', 'Travesía 741', '369852147', true),
+('Jorge Castro', 'jorge@example.com', 'passwordstu', 'Usuario', '2023-12-11', 'Sendero 258', '258369147', true);
+
+
 create table typeequipment
 (
 	id serial primary key not null,
@@ -37,7 +51,7 @@ create table equipment
 	description text,
 	isBorrowed boolean default false,
 	characteristics text,
-	idTypeEquipment int,
+	idTypeEquipment int,	
 	foreign key (idTypeEquipment) references typeequipment (id)
 );
 
