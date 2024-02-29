@@ -25,10 +25,10 @@ app.get('/session', (req, res) => {
 
 
 const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "prestamos",
-  password: "admin",
+  user: 'mantum',
+  host: 'localhost',
+  database: 'prestamos',
+  password: 'gatostem123',
   port: 5432,
 });
 
@@ -112,6 +112,34 @@ app.post('/getsolicitudes', (req, res) => {
 });
 
 
+app.get('/getallsolicitudes', (req, res) => {
+  const query = 'SELECT us.fullName, rq.iduser, rq.id, rq.typeequipment, rq.statusApproved, rq.startdaterequired, rq.enddaterequired  FROM loanrequest as rq LEFT JOIN "user" as us ON rq.iduser = us.id;';
+  
+  pool.query(query, (error, results) => {
+    if (error) {
+      console.error("Error en la consulta:", error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    } else {
+      res.json({ solicitudes: results.rows });
+    } 
+  });
+});
+
+
+app.get('/gethistorico', (req, res) => {
+  const query = 'SELECT us.fullName, rq.id, rq.status, rq.status, rq.startdate, rq.enddate, e.name FROM loan as rq LEFT JOIN "user" as us ON rq.iduser = us.id LEFT JOIN equipment as e ON rq.idequipment = e.id; ';
+  
+  pool.query(query, (error, results) => {
+    if (error) {
+      console.error("Error en la consulta:", error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    } else {
+      res.json({ data: results.rows });
+    } 
+  });
+});
+
+
 app.post('/crearprestamo', (req, res) => {
   let { fechainicio, fechafin, iduser, idequipment } = req.body;
 
@@ -134,12 +162,24 @@ app.post('/setearsolicitud', (req, res) => {
   let { idsolicitud, estado } = req.body;
 
   const query = 'UPDATE loanrequest SET statusapproved = $1 WHERE id = $2;';
-
   pool.query(query, [estado, idsolicitud], (error, results) => {
     if (error) {
       res.status(500).json({ message: 'Error interno del servidor' + error });
     } else {
       res.json({ message: '¡Se actualizó el estado de la solicitud!', data: results.rows });
+    } 
+  });
+});
+
+app.get('/getdispositivos', (req, res) => {
+  const query = 'select * from equipment where isBorrowed = false ';
+  
+  pool.query(query, (error, results) => {
+    if (error) {  
+      console.error("Error en la consulta:", error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    } else {
+      res.json({ data: results.rows });
     } 
   });
 });

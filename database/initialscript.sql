@@ -67,13 +67,14 @@ values ('2023-12-01', '2023-12-10', '2023-12-15', 'entregado', 1, 1);
 create table loanrequest (
 	id serial primary key,
 	iduser int,
-	typeequipment text,
+	typeequipment int,
 	statusapproved text,
     startdaterequired text, 
-	enddaterequired text
+	enddaterequired text,
+	foreign key typeequipment references typeequipment(id);
 );
 
 insert into loanrequest (iduser, typeequipment, statusapproved, startdaterequired, enddaterequired )
-values (1, 'celular', 'pendiente', '2024-02-29', '2024-03-12');
+values (1, 3, 'pendiente', '2024-02-29', '2024-03-12');
 
 

@@ -212,3 +212,215 @@ function getSolicitudes(id) {
       });
     });
 }
+
+
+var dataallsolicitudes;
+
+function setDataAllSolicitudes(data) {
+  dataallsolicitudes = data;
+}
+
+function getDataAllSolicitudes() {
+  return dataallsolicitudes;
+}
+
+function getAllSolicitudes() {
+  return fetch("http://localhost:3000/getallsolicitudes", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .then((data) => {
+      setDataAllSolicitudes(data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      error.json().then((errorBody) => {
+        alert("Error al cargar el contenido: " + errorBody.message);
+      });
+    });
+}
+
+
+
+var historico;
+
+function setHistorico(data) {
+  historico = data;
+}
+
+function getDataHistorico() {
+  return historico;
+}
+
+function getHistorico() {
+  return fetch("http://localhost:3000/gethistorico", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .then((data) => {
+      setHistorico(data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      error.json().then((errorBody) => {
+        alert("Error al cargar el contenido: " + errorBody.message);
+      });
+    });
+}
+
+
+
+var dispositivos;
+
+function setDispositivos(data) {
+  dispositivos = data;
+}
+
+function getDataDispositivos() {
+  return dispositivos;
+}
+
+function getDispositivos() {
+  return fetch("http://localhost:3000/getdispositivos", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },  
+  })
+    .then((response) => {
+      if (response.ok) {
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .then((data) => {
+      setDispositivos(data);
+      return data;
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      error.json().then((errorBody) => {
+        alert("Error al cargar el contenido: " + errorBody.message);
+      });
+    });
+}
+
+
+function crearPrestamo(fechainicio, fechafin, iduser, idequipment, id) {
+  var formData = {
+    fechainicio: fechainicio,
+    fechafin: fechafin,
+    iduser: iduser,
+    idequipment: idequipment,
+  };
+
+  var formData2= {
+    idsolicitud: id,
+    estado: 'aprobado'
+  };
+
+
+  fetch("http://localhost:3000/crearprestamo", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert(
+          "Sé Aprobo el prestamo"
+        );
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      error.json().then((errorBody) => {
+        alert("Error al generar la solicitud: " + errorBody.message);
+      });
+    });
+
+    fetch("http://localhost:3000/setearsolicitud", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData2),
+  })
+    .then((response) => {
+      if (response.ok) {
+        window.location.href = "index.html";
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      error.json().then((errorBody) => {
+        alert("Error al generar la solicitud: " + errorBody.message);
+      });
+    });
+
+    
+}
+
+
+
+
+function rechazarPrestamo(id) {
+  var formData = {
+    idsolicitud: id,
+  };
+
+  fetch("http://localhost:3000/setearsolicitud", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert(
+          "Sé Rechazo la solicitud correctamente"
+        );
+        return response.json();
+      } else {
+        return Promise.reject(response);
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      error.json().then((errorBody) => {
+        alert("Error al generar la solicitud: " + errorBody.message);
+      });
+    });
+
+}
+
